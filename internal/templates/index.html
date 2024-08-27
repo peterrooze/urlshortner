@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'site-dark': '#1c1c1c',
+                        'site-green': '#3ecf8e',
+                        'surface-75': '#1c1c1c',
+                        'surface-100': '#2e2e2e',
+                        'border': '#3c3c3c',
+                        'border-stronger': '#4a4a4a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-site-dark text-gray-300 min-h-screen flex flex-col items-center justify-center font-sans">
+    <!-- <nav class="w-full bg-black p-4 fixed top-0">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-white" >URL Shortener</h1>
+        </div>
+    </nav> -->
+
+    <main class="text-center mt-20 w-full max-w-4xl px-4">
+        <h2 class="text-4xl font-bold mb-8 text-white">Shorten Your URLs</h2>
+        <div class="rounded-xl p-px bg-surface-75 bg-gradient-to-b from-border to-border/50 dark:to-surface-100 transition-all flex items-center justify-center hover:bg-none hover:!bg-border-stronger relative shadow-lg">
+            <div class="bg-site-dark rounded-xl w-full h-full p-8">
+                <form id="shortenForm" class="space-y-4">
+                    <div>
+                        <label for="url" class="block text-sm font-medium text-gray-400 mb-2">Enter URL to shorten</label>
+                        <input type="url" id="url" name="url" required
+                            class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-site-green">
+                    </div>
+                    <button type="submit"
+                        class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-site-green hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-supabase-green transition">
+                        Shorten URL
+                    </button>
+                </form>
+                <div id="result" class="mt-6 text-center hidden">
+                    <p class="text-sm text-gray-400">Your shortened URL:</p>
+                    <a id="shortUrl" href="#" target="_blank" class="text-site-green hover:underline font-medium"></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="mt-16 w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+        <div class="rounded-xl p-px bg-surface-75 bg-gradient-to-b from-border to-border/50 dark:to-surface-100 transition-all flex items-center justify-center hover:bg-none hover:!bg-border-stronger relative shadow-lg">
+            <div class="bg-site-dark rounded-xl w-full h-full p-8">
+                <div class="text-site-green text-3xl mb-4">⚡</div>
+                <h3 class="text-xl font-semibold text-white mb-2">Fast Shortening</h3>
+                <p class="text-gray-400">Create short URLs in seconds with our lightning-fast service.</p>
+            </div>
+        </div>
+        <div class="rounded-xl p-px bg-surface-75 bg-gradient-to-b from-border to-border/50 dark:to-surface-100 transition-all flex items-center justify-center hover:bg-none hover:!bg-border-stronger relative shadow-lg">
+            <div class="bg-site-dark rounded-xl w-full h-full p-8">
+                <div class="text-site-green text-3xl mb-4">🔒</div>
+                <h3 class="text-xl font-semibold text-white mb-2">Secure Links</h3>
+                <p class="text-gray-400">Your shortened URLs are safe and protected from malicious use.</p>
+            </div>
+        </div>
+        <div class="rounded-xl p-px bg-surface-75 bg-gradient-to-b from-border to-border/50 dark:to-surface-100 transition-all flex items-center justify-center hover:bg-none hover:!bg-border-stronger relative shadow-lg">
+            <div class="bg-site-dark rounded-xl w-full h-full p-8">
+                <div class="text-site-green text-3xl mb-4">📊</div>
+                <h3 class="text-xl font-semibold text-white mb-2">Analytics</h3>
+                <p class="text-gray-400">Track clicks and gather insights on your shortened URLs.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('shortenForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const url = document.getElementById('url').value;
+            try {
+                const response = await fetch('/shorten', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url }),
+                });
+                const data = await response.json();
+                const shortUrl = `${window.location.origin}/${data.short_url}`;
+                document.getElementById('shortUrl').textContent = shortUrl;
+                document.getElementById('shortUrl').href = shortUrl;
+                document.getElementById('result').classList.remove('hidden');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while shortening the URL.');
+            }
+        });
+    </script>
+</body>
+</html>
