@@ -1,4 +1,4 @@
-DATABASE_URL="postgres://postgres:mysecretpassword@localhost:5432/urlshortener?sslmode=disable" go run ./cmd/server/
+```DATABASE_URL="postgres://postgres:mysecretpassword@localhost:5432/urlshortener?sslmode=disable" go run ./cmd/server/```
 
 
 ```
