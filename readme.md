@@ -17,3 +17,7 @@ DATABASE_URL="postgres://postgres:mysecretpassword@localhost:5432/urlshortener?s
 
 list db entries:
 docker exec -it urlshortener-db psql -U postgres -d urlshortener -c "SELECT * FROM urls;"
+
+
+
+![URL Shortener Screenshot](https://i.imgur.com/SSwPS6j.png)
